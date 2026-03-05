@@ -6,12 +6,12 @@ import 'constants/colors.dart';
 import 'screens/home_screen.dart';
 import 'models/cart_state.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(
     MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => CartState()),
-      ],
+      providers: [ChangeNotifierProvider(create: (_) => CartState())],
       child: const MainApp(),
     ),
   );
@@ -28,12 +28,11 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.background,
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.priceBlue),
-        textTheme: GoogleFonts.outfitTextTheme(
-          Theme.of(context).textTheme,
-        ).apply(
-          bodyColor: AppColors.textMain,
-          displayColor: AppColors.textMain,
-        ),
+        textTheme: GoogleFonts.outfitTextTheme(Theme.of(context).textTheme)
+            .apply(
+              bodyColor: AppColors.textMain,
+              displayColor: AppColors.textMain,
+            ),
         useMaterial3: true,
       ),
       home: const HomeScreen(),

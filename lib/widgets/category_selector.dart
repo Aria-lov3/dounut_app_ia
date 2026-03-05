@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 
-class CategorySelector extends StatefulWidget {
-  const CategorySelector({super.key});
+class CategorySelector extends StatelessWidget {
+  final String selectedCategory;
+  final ValueChanged<String> onCategorySelected;
 
-  @override
-  State<CategorySelector> createState() => _CategorySelectorState();
-}
-
-class _CategorySelectorState extends State<CategorySelector> {
-  int selectedIndex = 0;
+  CategorySelector({
+    super.key,
+    required this.selectedCategory,
+    required this.onCategorySelected,
+  });
 
   final List<Map<String, dynamic>> categories = [
-    {'name': 'Donuts', 'icon': Icons.donut_small},
+    {
+      'name': 'Donuts',
+      'icon': Icons.data_usage,
+    }, // using data_usage as it resembles a broken donut/chart
     {'name': 'Burger', 'icon': Icons.lunch_dining},
     {'name': 'Smoothie', 'icon': Icons.local_drink},
     {'name': 'PanCake', 'icon': Icons.cake},
@@ -26,12 +29,11 @@ class _CategorySelectorState extends State<CategorySelector> {
         scrollDirection: Axis.horizontal,
         itemCount: categories.length,
         itemBuilder: (context, index) {
-          final isSelected = selectedIndex == index;
+          final categoryName = categories[index]['name'];
+          final isSelected = selectedCategory == categoryName;
           return GestureDetector(
             onTap: () {
-              setState(() {
-                selectedIndex = index;
-              });
+              onCategorySelected(categoryName);
             },
             child: Container(
               margin: const EdgeInsets.only(right: 24, left: 4),
@@ -45,7 +47,9 @@ class _CategorySelectorState extends State<CategorySelector> {
                       color: isSelected ? Colors.white : Colors.transparent,
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: isSelected ? Colors.black87 : Colors.grey.shade300,
+                        color: isSelected
+                            ? Colors.black87
+                            : Colors.grey.shade300,
                         width: isSelected ? 2 : 1,
                       ),
                       boxShadow: isSelected
@@ -54,7 +58,7 @@ class _CategorySelectorState extends State<CategorySelector> {
                                 color: Colors.black.withOpacity(0.05),
                                 blurRadius: 10,
                                 offset: const Offset(0, 5),
-                              )
+                              ),
                             ]
                           : [],
                     ),
@@ -69,7 +73,9 @@ class _CategorySelectorState extends State<CategorySelector> {
                     categories[index]['name'],
                     style: TextStyle(
                       color: isSelected ? Colors.black87 : Colors.grey.shade500,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.w500,
                       fontSize: 14,
                     ),
                   ),
