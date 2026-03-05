@@ -18,6 +18,24 @@ class ProductCard extends StatelessWidget {
     return AppColors.priceOrange;
   }
 
+  // Helper to get icon based on category
+  IconData _getCategoryIcon(String category) {
+    switch (category) {
+      case 'Donuts':
+        return Icons.data_usage; // Consistent with selector
+      case 'Burger':
+        return Icons.lunch_dining;
+      case 'Smoothie':
+        return Icons.local_drink;
+      case 'PanCake':
+        return Icons.cake;
+      case 'Pizza':
+        return Icons.local_pizza;
+      default:
+        return Icons.fastfood;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -41,12 +59,11 @@ class ProductCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 20),
-                // Emulated Product Image since we don't have real assets yet
-                // Later changed to Image.asset
+                // Emulated Product Image
                 Expanded(
                   child: Center(
                     child: Icon(
-                      Icons.donut_large,
+                      _getCategoryIcon(product.category),
                       size: 80,
                       color: _getPriceColor(product.bgColor).withOpacity(0.8),
                     ),
@@ -76,7 +93,10 @@ class ProductCard extends StatelessWidget {
               top: 0,
               right: 0,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.8),
                   borderRadius: const BorderRadius.only(
